@@ -32,15 +32,8 @@ async function makeSignedRequest(method, url) {
         throw error;
     }
 }
-function requireDocumentId(req, res, next) {
-    const { document_id } = req.query;
-    if (!document_id) {
-        return res.status(400).json({ error: 'Missing required parameter: document_id' });
-    }
-    next();
-}
 
-router.delete('/flush', requireDocumentId, async (req, res) => {
+router.delete('/flush', async (req, res) => {
     try {
         const { document_id } = req.query;
         const apiUrl = `${BASE_API_URL}/collaborations/${document_id}`;
@@ -51,7 +44,7 @@ router.delete('/flush', requireDocumentId, async (req, res) => {
     }
 });
 
-router.get('/users', requireDocumentId, async (req, res) => {
+router.get('/users', async (req, res) => {
     try {
         const { document_id } = req.query;
         const apiUrl = `${BASE_API_URL}/collaborations/${document_id}/users`;
@@ -62,7 +55,7 @@ router.get('/users', requireDocumentId, async (req, res) => {
     }
 });
 
-router.get('/comments', requireDocumentId, async (req, res) => {
+router.get('/comments', async (req, res) => {
     try {
         const { document_id } = req.query;
         const apiUrl = `${BASE_API_URL}/comments?document_id=${document_id}`;
